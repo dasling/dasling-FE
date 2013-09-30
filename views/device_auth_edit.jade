@@ -1,0 +1,57 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    form#device_auth-edit.form-horizontal(action='/device_auths/edit/',method='post',enctype='multipart/form-data')
+      fieldset
+        legend Edit your device authorizations's details below
+        div.control-group
+          label.control-label Device Authorization ID
+          div.controls
+            input(id='device_auth_id',type='text',name='device_auth_id', readonly, value=device_auth.device_auth_id)  
+        div.control-group
+          label.control-label Organization ID
+          div.controls
+            input(id='organization_id',type='text',name='organization_id',readonly,placeholder=device_auth.organization_id)
+        div.control-group
+          label.control-label Device ID
+          div.controls
+            select(name="device_id")
+              for device in devices
+                option(value = device.device_id, selected = device_auth.device_id == device.device_id) #{device.description}
+        div.control-group
+          label.control-label Protocol ID
+          div.controls
+            input(id='protocol_id',type='text',name='protocol_id',value=device_auth.protocol_id)
+        div.control-group
+          label.control-label Username
+          div.controls
+            input(id='username',type='text',name='username',value=device_auth.username)
+        div.control-group
+          label.control-label Password
+          div.controls
+            input(id='password',type='text',name='password',value=device_auth.password)
+        div.control-group
+          label.control-label Client ID
+          div.controls
+            input(id='client_id',type='text',name='client_id',value=device_auth.client_id)
+        div.control-group
+          label.control-label Status
+          div.controls
+            input(id='status_id',type='text',name='status_id',readonly,value=1)
+        div.control-group
+          div.controls 
+            input.control-label.btn(type='submit').submit Submit
+
+  div.footer

@@ -1,0 +1,63 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    form#variable-edit.form-horizontal(action='/variables/edit/',method='post',enctype='multipart/form-data')
+      fieldset
+        legend Edit your variable's details below
+        div.control-group
+          label.control-label Device ID
+          div.controls
+            input(id='variable_id',type='text',name='variable_id', readonly, value=variable.variable_id)  
+        div.control-group
+          label.control-label Organization ID
+          div.controls
+            input(id='organization_id',type='text',name='organization_id',readonly,placeholder=variable.organization_id)
+        div.control-group
+          label.control-label Unit ID
+          div.controls
+            select(name="unit_id")
+              for unit in units
+                option(value = unit.unit_id, selected = variable.unit_id == unit.unit_id) #{unit.name}
+        div.control-group
+          label.control-label Name
+          div.controls
+            input(id='name',type='text',name='name',value=variable.name)
+        div.control-group
+          label.control-label Description
+          div.controls
+            input(id='description',type='text',name='description',value=variable.description)
+        div.control-group
+          label.control-label Current Channel ID
+          div.controls
+            select(name="current_channel_id")
+              for channel in channels
+                option(value = channel.channel_id, selected = variable.current_channel_id == channel.channel_id) #{channel.channel_user_given_id}
+        div.control-group
+          label.control-label Republish Topic
+          div.controls
+            input(id='republish_topic',type='text',name='republish_topic',value=variable.republish_topic)
+        div.control-group
+          label.control-label Installed at
+          div.controls
+            input(id='setup_installed_at_time',type='text',name='setup_installed_at_time',value=variable.setup_installed_at_time)
+        div.control-group
+          label.control-label Status
+          div.controls
+            input(id='status_id',type='text',name='status_id',readonly,value=1)
+        div.control-group
+          div.controls 
+            input.control-label.btn(type='submit').submit Submit
+
+  div.footer

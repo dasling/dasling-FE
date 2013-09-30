@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    form#device-edit.form-horizontal(action='/devices/edit/',method='post',enctype='multipart/form-data')
+      fieldset
+        legend Edit your device's details below
+        div.control-group
+          label.control-label Device ID
+          div.controls
+            input(id='device_id',type='text',name='device_id', readonly, value=device.device_id)  
+        div.control-group
+          label.control-label Device Manufacturer ID
+          div.controls
+            input(id='device_manufacturer_identification',type='text',name='device_manufacturer_identification',value=device.device_manufacturer_identification)
+        div.control-group
+          label.control-label Description
+          div.controls
+            input(id='description',type='text',name='description',value=device.description)
+        div.control-group
+          label.control-label Status
+          div.controls
+            input(id='status_id',type='text',name='status_id',readonly,value=1)
+        div.control-group
+          div.controls 
+            input.control-label.btn(type='submit').submit Submit
+
+  div.footer

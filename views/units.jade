@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    a(href='/units/add/')
+      div.btn Add a unit
+    br
+    br
+    table.table.table-striped
+      thead
+        tr
+          th Unit ID
+          th Name
+          th Description
+          th Status
+          th Actions
+      tbody
+        - each unit in units
+          tr
+            td #{unit.unit_id}
+            td #{unit.name}
+            td #{unit.description}
+            td #{unit.status}
+            td 
+              a(href='/units/edit/' + unit.unit_id) Edit 
+              - if (unit.status_id == 1) {
+              a(href='/units/dis/' + unit.unit_id) Disable
+              - } else if (unit.status_id == 16) {
+              a(href='/units/act/' + unit.unit_id) Enable
+              - }
+
+  div.footer

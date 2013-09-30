@@ -1,0 +1,46 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    a(href='/devices/add')
+      div.btn Add a device
+    br
+    br
+    table.table.table-striped
+      thead
+        tr
+          th Device ID
+          th Manufacturer ID
+          th Device Description
+          th Status
+          th Created at
+          th Actions
+      tbody
+        - each device in devices
+          tr
+            td #{device.device_id}
+            td 
+              a(href='/sensors/list/' + device.device_id) #{device.device_manufacturer_identification}
+            td #{device.description}
+            td #{device.status}
+            td #{device.created_at_timestamp}
+            td 
+              a(href='/devices/edit/' + device.device_id) Edit 
+              - if (device.status_id == 1) {
+              a(href='/devices/dis/' + device.device_id) Disable
+              - } else if (device.status_id == 16) {
+              a(href='/devices/act/' + device.device_id) Enable
+              - }
+
+  div.footer

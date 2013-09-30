@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    a(href='/device_auths/add')
+      div.btn Add an device authorization
+    br
+    br
+    table.table.table-striped
+      thead
+        tr
+          th Device authorization ID
+          th Device ID
+          th Client ID
+          th Protocol ID
+          th Username
+          th Password
+          th Status
+          th Actions
+      tbody
+        - each device_auth in device_auths
+          tr
+            td #{device_auth.device_auth_id}
+            td #{device_auth.device_id}
+            td #{device_auth.client_id}
+            td #{device_auth.protocol_id}
+            td #{device_auth.username}
+            td #{device_auth.password}
+            td #{device_auth.status}
+            td 
+              a(href='/device_auths/edit/' + device_auth.device_auth_id) Edit 
+              - if (device_auth.status_id == 1) {
+              a(href='/device_auths/dis/' + device_auth.device_auth_id) Disable
+              - } else if (device_auth.status_id == 16) {
+              a(href='/device_auths/act/' + device_auth.device_auth_id) Enable
+              - }
+
+  div.footer

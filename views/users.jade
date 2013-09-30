@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+      table.table.table-striped
+        thead
+          tr
+            th Table
+            th Heading
+        tbody
+          - each user in users
+            tr
+              td #{user.name}
+              td Further info
+  div.footer

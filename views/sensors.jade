@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    - if (current_device == 'all') {
+        p Sensors can be added only from the device page
+    - } else {
+        a(href='/sensors/add/' + current_device)
+          div.btn Add a sensor
+    - }
+    br
+    br
+    table.table.table-striped
+      thead
+        tr
+          th Sensor ID
+          th Manufacturer ID / User given ID
+          th Sensor description
+          th Status
+          th Actions
+      tbody
+        - each sensor in sensors
+          tr
+            td #{sensor.channel_id}
+            td #{sensor.channel_user_given_id}
+            td #{sensor.description}
+            td #{sensor.status}
+            td 
+              a(href='/sensors/edit/' + sensor.channel_id) Edit 
+              - if (sensor.status_id == 1) {
+              a(href='/sensors/dis/' + sensor.channel_id) Disable
+              - } else if (sensor.status_id == 16) {
+              a(href='/sensors/act/' + sensor.channel_id) Enable
+              - }
+
+  div.footer

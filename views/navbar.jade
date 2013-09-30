@@ -1,0 +1,16 @@
+div.navbar
+  div.navbar-inner
+    a.brand(href='#') #{title}
+  ul.nav
+    li.active: a(href='/') Home
+    li.active: a(href='/') 
+    li.active: a(href='/devices') Devices
+    li.active: a(href='/device_auths') Device Authorizations
+    li.active: a(href='/sensors') Sensors
+    li.active: a(href='/variables') Variables
+    li.active: a(href='/units') Units
+    li.active: a(href='/') 
+    - if (everyauth.loggedIn)
+      li.active: a(href='/logout') #{everyauth.twitter.user.name} (logout)
+    - else
+      li.active: a(href='/auth/twitter') Login with twitter

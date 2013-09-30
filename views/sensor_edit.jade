@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    form#sesnor-edit.form-horizontal(action='/sensors/edit/',method='post',enctype='multipart/form-data')
+      fieldset
+        legend Edit your sensor's details below
+        div.control-group
+          label.control-label Sensor ID
+          div.controls
+            input(id='channel_id',type='text',name='channel_id', readonly, value=sensor.channel_id)  
+        div.control-group
+          label.control-label Organization ID
+          div.controls
+            input(id='organization_id',type='text',name='organization_id',readonly,placeholder=sensor.organization_id)
+        div.control-group
+          label.control-label Device ID
+          div.controls
+            select(name="device_id")
+              for device in devices
+                option(value = device.device_id, selected = sensor.device_id == device.device_id) #{device.description}
+        //- div.control-group
+          //- label.control-label Device ID
+          //- div.controls
+            //- input(id='device_id',type='text',name='device_id',value=sensor.device_id)
+        div.control-group
+          label.control-label User Given ID
+          div.controls
+            input(id='channel_user_given_id',type='text',name='channel_user_given_id',value=sensor.channel_user_given_id)
+        div.control-group
+          label.control-label Description
+          div.controls
+            input(id='description',type='text',name='description',value=sensor.description)
+        div.control-group
+          label.control-label Status
+          div.controls
+            input(id='status',type='text',name='status',readonly,value=sensor.status_id)
+        div.control-group
+          div.controls 
+            input.control-label.btn(type='submit').submit Submit
+
+  div.footer

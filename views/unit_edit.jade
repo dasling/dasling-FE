@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    form#unit-edit.form-horizontal(action='/units/edit/',method='post',enctype='multipart/form-data')
+      fieldset
+        legend Edit your unit's details below
+        div.control-group
+          label.control-label Unit ID
+          div.controls
+            input(id='unit_id',type='text',name='unit_id', readonly, value=unit.unit_id)  
+        div.control-group
+          label.control-label Name
+          div.controls
+            input(id='name',type='text',name='name',value=unit.name)
+        div.control-group
+          label.control-label Description
+          div.controls
+            input(id='description',type='text',name='description',value=unit.description)
+        div.control-group
+          label.control-label Status
+          div.controls
+            input(id='status_id',type='text',name='status_id',readonly,value=1)
+        div.control-group
+          div.controls 
+            input.control-label.btn(type='submit').submit Submit
+
+  div.footer

@@ -1,0 +1,53 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    a(href='/variables/add/')
+      div.btn Add a variable
+    br
+    br
+    table.table.table-striped
+      thead
+        tr
+          th Variable ID
+          th Unit ID
+          th Name 
+          th Description
+          th Current sensor
+          th Republish topic
+          th Created at
+          th Installed at
+          th Status
+          th Actions
+      tbody
+        - each variable in variables
+          tr
+            td #{variable.variable_id}
+            td #{variable.unit_name}
+            td #{variable.name}
+            td #{variable.description}
+            td #{variable.current_channel_id}
+            td #{variable.republish_topic}
+            td #{variable.created_at_timestamp}
+            td #{variable.setup_installed_at_time}
+            td #{variable.status}
+            td 
+              a(href='/variables/edit/' + variable.variable_id) Edit 
+              - if (variable.status_id == 1) {
+              a(href='/variables/dis/' + variable.variable_id) Disable
+              - } else if (variable.status_id == 16) {
+              a(href='/variables/act/' + variable.variable_id) Enable
+              - }
+
+  div.footer
