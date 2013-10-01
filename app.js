@@ -24,8 +24,8 @@ var users = require('./lib/users');
 ////////////////////////////////////////////////////////
 // added for Twitter authentication (based on everyauth)
 everyauth.twitter
-  .consumerKey('rRl8fPDJjSCFCaQj2iSAUA')
-  .consumerSecret('bvE3fg3LpQ7xZC1zum3cSOuQT6Ybvb42tygIDZCGhR8')  // PAVE's testee twitter consumerKey en -Secret
+  .consumerKey('@consumerkey@')
+  .consumerSecret('@consumersecret@')  // PAVE's testee twitter consumerKey en -Secret
   .findOrCreateUser(function(session, accessToken, accessTokenSecret, twitterUserData) {
       //console.log(util.inspect(twitterUserData));
       var promise = this.Promise();
