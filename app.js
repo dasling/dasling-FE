@@ -57,7 +57,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('mydfvdfveaqsdvq'));
 app.use(express.session());
-app.use(everyauth.middleware());  				// added for everyauth
+app.use(everyauth.middleware()); // added for everyauth
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
