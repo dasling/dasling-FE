@@ -2,6 +2,8 @@
  * Module dependencies.
  */
 
+var OAUTH_DEBUG = true;
+
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
@@ -16,6 +18,7 @@ var express = require('express')
 
 var everyauth = require('everyauth'),
     Promise = everyauth.Promise;
+everyauth.debug = OAUTH_DEBUG;
   
 // own modules
 var dbclient = require('./lib/db');
