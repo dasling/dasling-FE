@@ -1,5 +1,5 @@
 -- -----------------------------------------------------
--- Data for table `perp_v1`.`statuses`
+-- Data for table `dasling`.`statuses`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `perp_v1`;
@@ -11,7 +11,7 @@ INSERT INTO `perp_v1`.`statuses` (`status_id`, `description`) VALUES (255, 'Dele
 COMMIT;
 
 -- -----------------------------------------------------
--- Data for table `perp_v1`.`organizations`
+-- Data for table `dasling`.`organizations`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `perp_v1`;

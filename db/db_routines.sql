@@ -4,7 +4,7 @@
 -- --------------------------------------------------------------------------------
 DELIMITER $$
 
-CREATE DEFINER = 'perpetual_pave'@'localhost' 
+CREATE DEFINER = 'dasling'@'localhost' 
 FUNCTION `add_device` (user_id INT) RETURNS int(11)
     MODIFIES SQL DATA
     DETERMINISTIC
