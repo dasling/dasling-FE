@@ -11,6 +11,7 @@ div.navbar
     li.active: a(href='/units') Units
     li.active: a(href='/') 
     - if (everyauth.loggedIn)
-      li.active: a(href='/logout') #{everyauth.twitter.user.name} (logout)
+      li.active: a(href='/account') #{everyauth.twitter.user.name}
+      li.active: a(href='/logout') (logout)
     - else
       li.active: a(href='/auth/twitter') Login with twitter

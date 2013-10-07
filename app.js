@@ -28,7 +28,6 @@ var users = require('./lib/users');
 ////////////////////////////////////////////////////////
 // added for Twitter authentication (based on everyauth)
 var twitter_config = config.getConfiguration().twitter;
-console.log(util.inspect(twitter_config.consumerKey));
 everyauth.twitter
   .consumerKey(twitter_config.consumerKey)
   .consumerSecret(twitter_config.consumerSecret)
@@ -73,7 +72,8 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 
 /*************** ROUTES FOR USERS *****************/
-app.get('/users', user.list);
+//app.get('/users', user.list);
+app.get('/account', user.edit_form);
 
 /*************** ROUTES FOR DEVICES *****************/
 app.get('/devices/add', devices.add);

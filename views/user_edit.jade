@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+
+    form#user-edit.form-horizontal(action='/user/edit/',method='post',enctype='multipart/form-data')
+      fieldset
+        legend Edit your account details below
+        div.control-group
+          label.control-label User ID
+          div.controls
+            input(id='user_id',type='text',name='user_id', readonly, value=user.id)  
+        div.control-group
+          label.control-label Username
+          div.controls
+            input(id='username',type='text',name='username',readonly,value=user.username)
+//        div.control-group
+//          label.control-label Organization 
+//          div.controls
+//            select(name="organization_id")
+//              for organization in organizations
+//                option(value = organization.organization_id, selected = user.organization_id == organization.organization_id) #{organization.description}
+        div.control-group
+          div.controls 
+            input.control-label.btn(type='submit').submit Submit
+
+  div.footer
+
