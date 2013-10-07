@@ -14,7 +14,8 @@ var express = require('express')
   , units = require('./routes/units')
   , http = require('http')
   , util = require('util')
-  , path = require('path');
+  , path = require('path')
+  , config = require('./lib/config');
 
 var everyauth = require('everyauth'),
     Promise = everyauth.Promise;
@@ -26,9 +27,11 @@ var users = require('./lib/users');
 
 ////////////////////////////////////////////////////////
 // added for Twitter authentication (based on everyauth)
+var twitter_config = config.getConfiguration().twitter;
+console.log(util.inspect(twitter_config.consumerKey));
 everyauth.twitter
-  .consumerKey('@consumerkey@')
-  .consumerSecret('@consumersecret@')  // PAVE's testee twitter consumerKey en -Secret
+  .consumerKey(twitter_config.consumerKey)
+  .consumerSecret(twitter_config.consumerSecret)
   .findOrCreateUser(function(session, accessToken, accessTokenSecret, twitterUserData) {
       //console.log(util.inspect(twitterUserData));
       var promise = this.Promise();

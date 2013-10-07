@@ -30,11 +30,14 @@ exports.list = function(req, res) {
                                         JOIN statuses stat \
                                           ON s.status_id = stat.status_id \
                                       WHERE map.user_id = :user_id';
+      var sql_preproc_data = {user_id: req.user.id};
       if (req.params.device_id != null) {
         preproc_sql_statement += ' AND s.device_id = :device_id';
+        sql_preproc_data.device_id= req.params.device_id; 
+        
       }
       var preproc_sql = conn.prepare(preproc_sql_statement);
-      conn.query(preproc_sql({user_id: req.user.id, device_id: req.params.device_id}))
+      conn.query(preproc_sql(sql_preproc_data))
       .on('result', function(res) {
 	res.on('row', function(row) {
 	  console.log("In sensors.list: Sensor found: " + util.inspect(row));
