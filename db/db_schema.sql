@@ -1,6 +1,6 @@
 -- MySQL dump 10.14  Distrib 10.0.2-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: dasling 
+-- Host: localhost    Database: perp_v1
 -- ------------------------------------------------------
 -- Server version	10.0.2-MariaDB-1~precise-log
 
@@ -45,6 +45,7 @@ CREATE TABLE `channels` (
   `device_id` int(10) unsigned DEFAULT NULL,
   `channel_user_given_id` text,
   `description` text,
+  `payload_regexp` text,
   `status_id` int(10) unsigned NOT NULL DEFAULT '1',
   `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`organization_id`,`channel_id`),
@@ -88,6 +89,22 @@ CREATE TABLE `devices` (
   `status_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`organization_id`,`device_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `log`
+--
+
+DROP TABLE IF EXISTS `log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `log` (
+  `organization_id` tinyint(3) unsigned NOT NULL,
+  `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `message` text,
+  `human_message` text,
+  PRIMARY KEY (`log_id`,`organization_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +186,7 @@ CREATE TABLE `readings` (
   `reading_id` bigint(19) unsigned NOT NULL AUTO_INCREMENT,
   `measured_at_timestamp` bigint(19) unsigned NOT NULL,
   PRIMARY KEY (`reading_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3399689 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
+) ENGINE=MyISAM AUTO_INCREMENT=4482073 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,4 +290,4 @@ CREATE TABLE `variable` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-09-30 11:11:42
+-- Dump completed on 2013-10-14 15:20:47
