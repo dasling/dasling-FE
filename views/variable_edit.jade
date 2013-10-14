@@ -49,6 +49,10 @@ block content
           div.controls
             input(id='republish_topic',type='text',name='republish_topic',value=variable.republish_topic)
         div.control-group
+          label.control-label Store in DB (0 = do not store, 1 = store) 
+          div.controls
+            input(id='store_in_DB',type='text',name='store_in_DB',value=variable.store_in_DB)
+        div.control-group
           label.control-label Installed at
           div.controls
             input(id='setup_installed_at_time',type='text',name='setup_installed_at_time',value=variable.setup_installed_at_time)

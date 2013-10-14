@@ -23,7 +23,7 @@ exports.list = function(req, res) {
       //console.log("In variables.list: Collecting variables");
       var preproc_sql = conn.prepare('SELECT v.organization_id, v.variable_id, v.unit_id, v.name, \
                                       v.description, v.current_channel_id, v.created_at_timestamp, \
-                                      v.republish_topic, v.setup_installed_at_time, v.status_id, \
+                                      v.republish_topic, v.store_in_DB, v.setup_installed_at_time, v.status_id, \
                                       stat.description as status, u.name as unit_name \
                                       FROM variable v \
                                         JOIN statuses stat \
@@ -323,6 +323,7 @@ exports.edit = function(req, res) {
                                             v.description = :description, \
                                             v.current_channel_id = :current_channel_id, \
                                             v.republish_topic = :republish_topic, \
+                                            v.store_in_DB = :store_in_DB, \
                                             v.setup_installed_at_time = :setup_installed_at_time, \
                                             v.status_id = 1 \
                                         WHERE v.variable_id = :variable_id \
@@ -334,6 +335,7 @@ exports.edit = function(req, res) {
                               description: req.body.description, 
                               current_channel_id: req.body.current_channel_id,
                               republish_topic: req.body.republish_topic,
+                              store_in_DB: req.body.store_in_DB,
                               setup_installed_at_time: req.body.setup_installed_at_time,                              
                              }))
       .on('result', function(res) {
