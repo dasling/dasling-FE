@@ -1,6 +1,6 @@
 -- MySQL dump 10.14  Distrib 10.0.2-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: perp_v1
+-- Host: localhost    Database: dasling_v1
 -- ------------------------------------------------------
 -- Server version	10.0.2-MariaDB-1~precise-log
 
@@ -70,7 +70,7 @@ CREATE TABLE `device_auth` (
   `client_id` varchar(45) DEFAULT NULL,
   `status_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`device_auth_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,7 +104,7 @@ CREATE TABLE `log` (
   `message` text,
   `human_message` text,
   PRIMARY KEY (`log_id`,`organization_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47604 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +186,7 @@ CREATE TABLE `readings` (
   `reading_id` bigint(19) unsigned NOT NULL AUTO_INCREMENT,
   `measured_at_timestamp` bigint(19) unsigned NOT NULL,
   PRIMARY KEY (`reading_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4482073 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
+) ENGINE=MyISAM AUTO_INCREMENT=4501558 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +218,7 @@ CREATE TABLE `units` (
   `status_id` int(10) unsigned NOT NULL DEFAULT '1',
   `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`unit_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -272,6 +272,7 @@ CREATE TABLE `variable` (
   `description` text,
   `current_channel_id` int(10) unsigned DEFAULT NULL,
   `republish_topic` text,
+  `store_in_DB` tinyint(1) DEFAULT '0',
   `created_at_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `setup_installed_at_time` timestamp NULL DEFAULT NULL,
   `status_id` int(10) unsigned NOT NULL DEFAULT '1',
@@ -290,4 +291,4 @@ CREATE TABLE `variable` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-14 15:20:47
+-- Dump completed on 2013-10-14 20:15:30
