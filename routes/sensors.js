@@ -93,7 +93,7 @@ exports.add = function(req, res) {
                                           (organization_id, device_id, channel_user_given_id, description, status_id) \
                                         VALUES \
                                           (:organization_id, :device_id, :channel_user_given_id, :description, :status_id)");
-      conn.query(preproc_sql({organization_id:1,
+      conn.query(preproc_sql({organization_id:0,
                               device_id: req.params.device_id,
                               channel_user_given_id: "Fill in unique identifier for sensor (device: " + req.params.device_id + ")",
                               description: "Fill in a description here, e.g. temperature sensor on my_cool_device",

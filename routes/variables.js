@@ -80,7 +80,7 @@ exports.add = function(req, res) {
                                           (organization_id, name, description, status_id) \
                                         VALUES \
                                           (:organization_id, :name, :description, :status_id)");
-      conn.query(preproc_sql({organization_id:1,
+      conn.query(preproc_sql({organization_id:0,
                               name: "Fill in a name here",
                               description: "Fill in a description here, e.g. temperature at my lab.",
                               status_id: 100}))

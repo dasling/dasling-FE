@@ -124,7 +124,7 @@ exports.add = function(req, res) {
             var preproc_sql = conn.prepare("INSERT INTO device_auth \
                                               (organization_id, device_id, protocol_id, username, password, client_id, status_id) \
                                             VALUES(:organization_id, :device_id, :protocol_id, :username, :password, :client_id, :status_id)");
-            conn.query(preproc_sql({organization_id: 1,
+            conn.query(preproc_sql({organization_id: 0,
                                     device_id: results[0][0]["device_id"],
                                     protocol_id: null,
                                     username: null,
