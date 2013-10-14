@@ -189,19 +189,21 @@ exports.edit = function(req, res) {
   } 
   else { // user logged in
     dbclient.exec(function(conn) {
-      console.log(req.body);
+      console.log("inside exit, req.body: " + util.inspect(req.body));
       // TODO: Need to check whether the device_id belong to this user FIRST !
       var preproc_sql = conn.prepare("UPDATE channels c \
                                         SET c.device_id = :device_id, \
                                             c.channel_user_given_id = :channel_user_given_id, \
                                             c.description = :description, \
+                                            c.payload_regexp = :payload_regexp, \
                                             c.status_id = 1 \
                                         WHERE c.channel_id = :channel_id");
       conn.query(preproc_sql({user_id: req.user.id,
                               channel_id: req.body.channel_id,
                               channel_user_given_id: req.body.channel_user_given_id,
                               description: req.body.description,
-                              device_id : req.body.device_id
+                              device_id : req.body.device_id,
+                              payload_regexp: req.body.payload_regexp
                              }))
       .on('result', function(res) {
         res.on('row', function(row) {
