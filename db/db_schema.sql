@@ -70,7 +70,7 @@ CREATE TABLE `device_auth` (
   `client_id` varchar(45) DEFAULT NULL,
   `status_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`device_auth_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,8 +103,11 @@ CREATE TABLE `log` (
   `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `message` text,
   `human_message` text,
+  `device_id` int(11) DEFAULT NULL,
+  `channel_id` int(11) DEFAULT NULL,
+  `variable_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`log_id`,`organization_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47604 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3416271 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,7 +189,7 @@ CREATE TABLE `readings` (
   `reading_id` bigint(19) unsigned NOT NULL AUTO_INCREMENT,
   `measured_at_timestamp` bigint(19) unsigned NOT NULL,
   PRIMARY KEY (`reading_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4501558 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
+) ENGINE=MyISAM AUTO_INCREMENT=5203800 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -218,7 +221,7 @@ CREATE TABLE `units` (
   `status_id` int(10) unsigned NOT NULL DEFAULT '1',
   `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`unit_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -291,4 +294,4 @@ CREATE TABLE `variable` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-10-14 20:15:30
+-- Dump completed on 2013-11-21 15:09:40
