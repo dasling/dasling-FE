@@ -12,6 +12,7 @@ var express = require('express')
   , sensors = require('./routes/sensors')
   , variables = require('./routes/variables')
   , units = require('./routes/units')
+  , data_log = require('./routes/data_log')
   , http = require('http')
   , util = require('util')
   , path = require('path')
@@ -120,6 +121,9 @@ app.get('/units/dis/:unit_id', units.dis);
 app.get('/units/act/:unit_id', units.act);
 
 app.post('/units/edit/', units.edit);
+
+/*************** ROUTES FOR LOG ***************/
+app.get('/data_logs', data_logs.overview);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
