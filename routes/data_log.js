@@ -7,7 +7,7 @@ var util = require('util');
 
 exports.overview = function(req, res) {
 
-  res.render('sensors', { title: 'Log overview',
+  res.render('data_log', { title: 'Log overview',
 		      messages: messages,
     })
 }
