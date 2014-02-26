@@ -13,10 +13,12 @@ exports.overview = function(req, res) {
   channels = [];
   variables = [];
   clients = [];
+  debug_types = [];
   devices.push('Choose device');
   channels.push('Choose channel');
   variables.push('Choose variable');
   clients.push('Choose client');
+  debug_types.push('Choose debug type');
 
  if (req.loggedIn !== true) { // user not logged in
     messages.push('Please log in to access the log overview.');
@@ -26,15 +28,16 @@ exports.overview = function(req, res) {
                       devices: {},
                       channels: {},
                       variables: {},
-                      clients: {}
+                      clients: {},
+                      debug_types: {}
     })
   } 
  else { // user logged in
     dbclient.exec(function(conn) {
       console.log("In datalog.overview: Collecting log");
-      var preproc_sql_statement = 'SELECT l.log_id, l.message, l.human_message,\
-                                       l.device, l.channel, l.variable, l.client\
-                                      FROM log l';
+      var preproc_sql_statement = '(SELECT l.log_id, l.message, l.human_message,\
+                                       l.device, l.channel, l.variable, l.client, l.debug_type\
+                                      FROM log l ORDER BY l.log_id DESC LIMIT 100) ORDER BY log_id ASC';
       var sql_preproc_data = {user_id: req.user.id};
       
       var preproc_sql = conn.prepare(preproc_sql_statement);
@@ -136,6 +139,26 @@ exports.overview = function(req, res) {
 	  }
 	});
       })
+
+      preproc_sql_statement = 'SELECT DISTINCT l.debug_type\
+                                      FROM log l';
+      preproc_sql = conn.prepare(preproc_sql_statement);
+      conn.query(preproc_sql(sql_preproc_data))
+      .on('result', function(res) {
+	res.on('row', function(row) {
+	  console.log("In datalog.overview: Debug type found: " + util.inspect(row));
+          debug_types.push(row.debug_type);        
+	})
+	.on('error', function(err) {
+	  console.log("In datalog.overview: Data log access error: " + util.inspect(err));  
+	  messages.push('Error accessing log clients. Please report this to the administrator with as much detail as humanly possible.');
+	})
+	.on('end', function(info) {
+	  if (info.numRows == 0) { // No logs found 
+	    messages.push('There are no debug types associated to this log');
+	  }
+	});
+      })
       .on('end', function() {
 	console.log("In datalog.overview: Queries ended, datalog:");  
         console.log(log_overview);
@@ -145,7 +168,8 @@ exports.overview = function(req, res) {
                               devices: devices,
                               channels: channels,
                               variables: variables,
-                              clients: clients 
+                              clients: clients,
+                              debug_types: debug_types
 	});
       });
     });
@@ -157,7 +181,6 @@ exports.filter = function(req, res) {
 
   log_overview = [];
   messages = [];
-  max_limit = [];
 
  if (req.loggedIn !== true) { // user not logged in
     messages.push('Please log in to access the log overview.');
@@ -171,15 +194,15 @@ exports.filter = function(req, res) {
       console.log(req.body);          
 
       var SQL = "(SELECT l.log_id, l.message, l.human_message, \
-                           l.device, l.channel, l.variable, l.client \
+                           l.device, l.channel, l.variable, l.client, l.debug_type \
                     FROM log l";
       var alreadyOne = 0;
       var index;
-      var SQL_options = ["l.message","l.human_message","l.device","l.channel","l.variable","l.client"];
-      var options = [req.body.message,req.body.human_message,req.body.device,req.body.channel,req.body.variable,req.body.client];
-      var values = ["","","Choose device", "Choose channel", "Choose variable", "Choose client"];
+      var SQL_options = ["l.message","l.human_message","l.device","l.channel","l.variable","l.client","l.debug_type"];
+      var options = [req.body.message,req.body.human_message,req.body.device,req.body.channel,req.body.variable,req.body.client,req.body.debug_type];
+      var values = ["","","Choose device", "Choose channel", "Choose variable", "Choose client", "Choose debug type"];
       for (index = 0; index < options.length; ++index) {
-        if(options[index]!=values[index]){
+        if(options[index]!=values[index] && options[index]!=""){
           if(!alreadyOne){
            if(index>1){
             SQL += " WHERE " + SQL_options[index] + " = '" + options[index] + "'";
@@ -198,6 +221,15 @@ exports.filter = function(req, res) {
            }
           }
         }
+        else if(options[index] == '' && index>1){
+         if(!alreadyOne){
+          SQL += " WHERE " + SQL_options[index] + " is NULL";
+          alreadyOne = 1;
+         }
+         else{
+          SQL += " AND " + SQL_options[index] + " is NULL";
+         }
+        }
       }
       SQL += " ORDER BY log_id DESC";
       
@@ -205,6 +237,7 @@ exports.filter = function(req, res) {
          SQL += " LIMIT " + req.body.limit;
       }
       SQL += ") ORDER BY log_id ASC";
+      console.log("SQL:  " +SQL);
       var preproc_sql = conn.prepare(SQL);
       console.log(req.user.id);
       conn.query(preproc_sql({user_id: req.user.id

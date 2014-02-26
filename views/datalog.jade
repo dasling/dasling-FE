@@ -54,6 +54,12 @@ block content
               - each client in clients
                 option #{client}
           div.control-group
+           label.control-label Debug type
+           div.controls
+             select(id='debug_type',type='text',name='debug_type',value="")#debug_types
+              - each debug_type in debug_types
+                option #{debug_type}
+          div.control-group
            label.control-label Limit 
            div.controls
              input(id='limit',type='text',name='limit', value="100")
@@ -72,6 +78,7 @@ block content
           th Channel           
           th Variable 
           th Client
+          th Debug type
       tbody
         - each log in log_overview
           tr
@@ -82,5 +89,6 @@ block content
             td #{log.channel}
             td #{log.variable}
             td #{log.client}
+            td #{log.debug_type}
         
   div.footer
