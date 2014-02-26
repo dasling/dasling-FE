@@ -1,8 +1,8 @@
--- MySQL dump 10.14  Distrib 10.0.2-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.14  Distrib 10.0.6-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: dasling_v1
+-- Host: localhost    Database: dasling
 -- ------------------------------------------------------
--- Server version	10.0.2-MariaDB-1~precise-log
+-- Server version	10.0.6-MariaDB-1~saucy-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,14 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Current Database: `dasling`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `dasling` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `dasling`;
 
 --
 -- Table structure for table `analyses`
@@ -70,7 +78,7 @@ CREATE TABLE `device_auth` (
   `client_id` varchar(45) DEFAULT NULL,
   `status_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`device_auth_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,11 +111,12 @@ CREATE TABLE `log` (
   `log_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `message` text,
   `human_message` text,
-  `device_id` int(11) DEFAULT NULL,
-  `channel_id` int(11) DEFAULT NULL,
-  `variable_id` int(11) DEFAULT NULL,
+  `device` varchar(45) DEFAULT NULL,
+  `channel` varchar(45) DEFAULT NULL,
+  `variable` varchar(45) DEFAULT NULL,
+  `client` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`log_id`,`organization_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3416271 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3582853 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +198,7 @@ CREATE TABLE `readings` (
   `reading_id` bigint(19) unsigned NOT NULL AUTO_INCREMENT,
   `measured_at_timestamp` bigint(19) unsigned NOT NULL,
   PRIMARY KEY (`reading_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5203800 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
+) ENGINE=MyISAM AUTO_INCREMENT=5210958 DEFAULT CHARSET=latin1 COMMENT='Table readings contains the values of readings (of a sensor channel setup) at a certain moment in time';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +230,7 @@ CREATE TABLE `units` (
   `status_id` int(10) unsigned NOT NULL DEFAULT '1',
   `user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`unit_id`,`organization_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,4 +303,4 @@ CREATE TABLE `variable` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-11-21 15:09:40
+-- Dump completed on 2014-02-26 12:43:59
