@@ -1,0 +1,94 @@
+extends layout
+
+block content
+  include navbar
+
+  div.container
+    div.content
+    
+    br
+    br
+    br
+    ul#messages
+      - each message in messages    
+        li #{message}
+    
+    br
+    br
+
+    form#datalog-filter.form-horizontal(action='/datalog/filter/',method='post',enctype='multipart/form-data')
+      fieldset
+        legend Filter the log by selecting items from the dropdown boxes and completing the input fields
+          div.control-group
+           label.control-label Message 
+           div.controls
+             input(id='message',type='text',name='message', value="")
+             p(style="font-size:12px; margin-bottom:-25px; margin-top: -10px") Enter a pattern to search for (use % to match any string and _ for a single character).
+          div.control-group
+           label.control-label Human message
+           div.controls
+             input(id='human_message',type='text',name='human_message',value="")
+             p(style="font-size:12px; margin-bottom:-25px; margin-top: -10px") Enter a pattern to search for (use % to match any string and _ for a single character).
+          div.control-group
+           label.control-label Device ID
+           div.controls
+             select(id='device',type='text',name='device',option='Choose device')#devices
+              - each dev in devices
+                option #{dev}                
+          div.control-group
+           label.control-label Channel ID
+           div.controls
+             select(id='channel',type='text',name='channel',value="")#channels
+              - each chan in channels
+                option #{chan}
+          div.control-group
+           label.control-label Variable ID
+           div.controls
+             select(id='variable',type='text',name='variable',value="")#variables
+              - each variable in variables
+                option #{variable}
+          div.control-group
+           label.control-label Client ID
+           div.controls
+             select(id='client',type='text',name='client',value="")#clients
+              - each client in clients
+                option #{client}
+          div.control-group
+           label.control-label Debug type
+           div.controls
+             select(id='debug_type',type='text',name='debug_type',value="")#debug_types
+              - each debug_type in debug_types
+                option #{debug_type}
+          div.control-group
+           label.control-label Limit 
+           div.controls
+             input(id='limit',type='text',name='limit', value="100")
+             p(style="font-size:12px; margin-bottom:-25px; margin-top: -10px") Enter a number to select the last N rows of the log, use ALL to select all rows.
+          div.control-group
+           div.controls 
+             input.control-label.btn(type='submit').submit Submit
+
+    table.table.table-striped
+      thead
+        tr                 
+          th Log ID
+          th Message
+          th Human message          
+          th Device         
+          th Channel           
+          th Variable 
+          th Client
+          th Debug type
+      tbody
+        - each log in log_overview
+          tr
+            td #{log.log_id}
+            td #{log.message}
+            td #{log.human_message}
+            td #{log.device}
+            td #{log.channel}
+            td #{log.variable}
+            td #{log.client}
+            td #{log.debug_type}
+        
+  div.footer
