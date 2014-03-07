@@ -101,7 +101,7 @@ exports.add = function(req, res) {
               callback(null, last_device);
             } else {
               console.log("Got back no last_device_id");
-              callback("no device", null);
+              callback("no device", "no device");
             }
           });
         })
