@@ -71,13 +71,14 @@ exports.add = function(req, res) {
   else { // user logged in
     dbclient.exec(function(conn) {      
       var preproc_sql = conn.prepare("INSERT INTO units \
-                                          (organization_id, name, description, status_id) \
+                                          (organization_id, name, description, status_id, user_id) \
                                         VALUES \
-                                          (:organization_id, :name, :description, :status_id)");
+                                          (:organization_id, :name, :description, :status_id, :user_id)");
       conn.query(preproc_sql({organization_id:0,
                               name: "Fill in unique name for this unit (e.g. Watt, Ohm, °C/10, ...)",
                               description: "Fill in a description here, e.g. temperature in 10th of a degree Celsius",
-                              status_id: 100}))
+                              status_id: 100,
+                              user_id: req.user.id}))
       .on('result', function(res) {
         res.on('row', function(row) {
         })

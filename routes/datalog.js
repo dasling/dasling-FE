@@ -58,8 +58,7 @@ exports.overview = function(req, res) {
 	});
       })
       
-      preproc_sql_statement = 'SELECT DISTINCT l.device\
-                                      FROM log l';
+      preproc_sql_statement = 'select distinct l.device from log l';
       sql_preproc_data = {user_id: req.user.id};
       
       preproc_sql = conn.prepare(preproc_sql_statement);
@@ -80,9 +79,9 @@ exports.overview = function(req, res) {
 	});
       })
 
-      preproc_sql_statement = 'SELECT DISTINCT l.channel\
-                                      FROM log l';
+      preproc_sql_statement = 'select distinct l.channel from log l';
       preproc_sql = conn.prepare(preproc_sql_statement);
+      sql_preproc_data = {user_id: req.user.id};
       conn.query(preproc_sql(sql_preproc_data))
       .on('result', function(res) {
 	res.on('row', function(row) {
@@ -100,9 +99,9 @@ exports.overview = function(req, res) {
 	});
       })
 
-      preproc_sql_statement = 'SELECT DISTINCT l.variable\
-                                      FROM log l';
+      preproc_sql_statement = 'select distinct l.variable from log l';
       preproc_sql = conn.prepare(preproc_sql_statement);
+      sql_preproc_data = {user_id: req.user.id};
       conn.query(preproc_sql(sql_preproc_data))
       .on('result', function(res) {
 	res.on('row', function(row) {
@@ -120,9 +119,9 @@ exports.overview = function(req, res) {
 	});
       })
 
-      preproc_sql_statement = 'SELECT DISTINCT l.client\
-                                      FROM log l';
+      preproc_sql_statement = 'select distinct l.client from log l';
       preproc_sql = conn.prepare(preproc_sql_statement);
+      sql_preproc_data = {user_id: req.user.id};
       conn.query(preproc_sql(sql_preproc_data))
       .on('result', function(res) {
 	res.on('row', function(row) {
@@ -140,9 +139,9 @@ exports.overview = function(req, res) {
 	});
       })
 
-      preproc_sql_statement = 'SELECT DISTINCT l.debug_type\
-                                      FROM log l';
+      preproc_sql_statement = 'select distinct l.debug_type from log l';
       preproc_sql = conn.prepare(preproc_sql_statement);
+      sql_preproc_data = {user_id: req.user.id};
       conn.query(preproc_sql(sql_preproc_data))
       .on('result', function(res) {
 	res.on('row', function(row) {

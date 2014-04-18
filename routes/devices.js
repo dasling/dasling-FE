@@ -21,7 +21,7 @@ exports.list = function(req, res) {
     dbclient.exec(function(conn) {
       console.log("In devices.list: Collecting devices");
       var preproc_sql = conn.prepare('SELECT d.device_id, d.device_manufacturer_identification, d.description, d.created_at_timestamp, stat.status_id, stat.description AS status FROM devices d JOIN map_users_devices mud ON d.device_id = mud.device_id JOIN statuses stat ON d.status_id = stat.status_id WHERE mud.user_id = :id');
-      conn.query(preproc_sql(req.user.id))
+      conn.query(preproc_sql({id:req.user.id}))
       .on('result', function(res) {
 	res.on('row', function(row) {
 	  console.log("In devices.list: Device found: " + util.inspect(row));
@@ -67,7 +67,7 @@ exports.add = function(req, res) {
   else { // user logged in
     dbclient.exec(function(conn) {
       var preproc_sql = conn.prepare("SELECT add_device(:id) AS new_device_id");
-      conn.query(preproc_sql(req.user.id))
+      conn.query(preproc_sql({id: req.user.id}))
       .on('result', function(res) {
         res.on('row', function(row) {
           console.log("In devices.add: Added device: " + util.inspect(row));

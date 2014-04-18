@@ -90,14 +90,15 @@ exports.add = function(req, res) {
       // execute a query to check device for a user_id == req.user.id
       
       var preproc_sql = conn.prepare("INSERT INTO channels \
-                                          (organization_id, device_id, channel_user_given_id, description, status_id) \
+                                          (organization_id, device_id, channel_user_given_id, description, status_id, user_id) \
                                         VALUES \
-                                          (:organization_id, :device_id, :channel_user_given_id, :description, :status_id)");
+                                          (:organization_id, :device_id, :channel_user_given_id, :description, :status_id, :user_id)");
       conn.query(preproc_sql({organization_id:0,
                               device_id: req.params.device_id,
                               channel_user_given_id: "Fill in unique identifier for sensor (device: " + req.params.device_id + ")",
                               description: "Fill in a description here, e.g. temperature sensor on my_cool_device",
-                              status_id: 100}))
+                              status_id: 100,
+                              user_id: req.user.id}))
       .on('result', function(res) {
         res.on('row', function(row) {
         })
