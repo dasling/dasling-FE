@@ -1,5 +1,6 @@
 var dbclient = require('../lib/db');
 var util = require('util');
+var async = require('async');
 
 /*
  * GET devices listing.
@@ -21,14 +22,15 @@ exports.list = function(req, res) {
     dbclient.exec(function(conn) {
       console.log("In devices.list: Collecting devices");
       var preproc_sql = conn.prepare('SELECT d.device_id, d.device_manufacturer_identification, d.description, d.created_at_timestamp, stat.status_id, stat.description AS status FROM devices d JOIN map_users_devices mud ON d.device_id = mud.device_id JOIN statuses stat ON d.status_id = stat.status_id WHERE mud.user_id = :id');
-      conn.query(preproc_sql({id:req.user.id}))
+      console.log("req.user.id: " + req.user.id);
+      conn.query(preproc_sql({id: req.user.id}))
       .on('result', function(res) {
 	res.on('row', function(row) {
-	  console.log("In devices.list: Device found: " + util.inspect(row));
+//	  console.log("In devices.list: Device found: " + util.inspect(row));
 	  devices.push(row);
 	})
 	.on('error', function(err) {
-	  console.log("In devices.list: Device access error: " + util.inspect(err));  
+//	  console.log("In devices.list: Device access error: " + util.inspect(err));  
 	  messages.push('Error accessing a device. Please report this to the administrator with as much detail as humanly possible.');
 	})
 	.on('end', function(info) {
@@ -65,9 +67,57 @@ exports.add = function(req, res) {
     })
   } 
   else { // user logged in
-    dbclient.exec(function(conn) {
-      var preproc_sql = conn.prepare("SELECT add_device(:id) AS new_device_id");
-      conn.query(preproc_sql({id: req.user.id}))
+   dbclient.exec(function(conn){ 
+    async.series([
+     function(callback){
+      var preproc_sql = conn.prepare("SELECT 1 FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE='FUNCTION' AND ROUTINE_SCHEMA='dasling' AND ROUTINE_NAME = 'add_device'");
+      conn.query(preproc_sql())
+      .on('result', function(res) {
+        res.on('row',function(row) {
+          console.log("Query succeeded");
+        })
+        .on('error', function(err){
+          console.log("In devices.add: Error searching for function add_device: " + util.inspect(err));  
+          messages.push('Error finding function add_device. Please report this to the administrator with as much detail as humanly possible.');
+        })
+        .on('end',function(info) { 
+          console.log(info);
+          if(info.numRows==0){ //No routine for adding device present
+               console.log("Adding function for adding devices");
+               var sql = "CREATE DEFINER = CURRENT_USER FUNCTION `add_device` (user_id INT) RETURNS int (11)\
+			      MODIFIES SQL DATA\
+			      SQL SECURITY INVOKER\
+			      DETERMINISTIC\
+			      BEGIN \
+			      DECLARE id INT default -1; \
+			      INSERT INTO devices (organization_id, device_manufacturer_identification, description, status_id) \
+			 	VALUES ((SELECT organization_id FROM users u WHERE u.user_id = user_id), 'manufacturer_id', 'description', 100); \
+			      SET id = LAST_INSERT_ID(); \
+			          if id <> -1 then \
+					INSERT INTO map_users_devices (organization_id, user_id, device_id,status_id) \
+				  	  VALUES ((SELECT organization_id FROM users u WHERE u.user_id = user_id), user_id, id, 1); \
+				  END IF; \
+			      RETURN id; \
+			      END";
+                 preproc_sql = conn.prepare(sql);
+                 conn.query(preproc_sql())
+                 .on('result',function(res){ 
+                   res.on('error',function(err){
+                     console.log("In devices.add: Error adding function add_device: " + util.inspect(err));
+                     messages.push('Error adding function add_device. Please report this to the administrator with as much detail as humanly possible.');
+                   });
+                 })
+          }
+        });
+     })
+      .on('end',function() {
+        console.log("Function add_device present");
+        callback(null,'');
+      });
+    },
+    function(callback){
+      preproc_sql = conn.prepare("SELECT add_device(:id) AS new_device_id");
+      conn.query(preproc_sql({id:req.user.id}))
       .on('result', function(res) {
         res.on('row', function(row) {
           console.log("In devices.add: Added device: " + util.inspect(row));
@@ -92,8 +142,10 @@ exports.add = function(req, res) {
 //                               devices: devices
 //         });
         // JOIN map_users_devices mud ON d.device_id = mud.device_id JOIN statuses stat ON d.status_id = stat.status_id WHERE mud.user_id = :id');
+        callback(null,'');
       });
-    });
+    }]);
+   });
 
     // res.render('device_add', {title: 'Add new device'});
   }
