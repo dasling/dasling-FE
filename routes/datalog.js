@@ -38,9 +38,9 @@ exports.overview = function(req, res) {
      async.parallel([
       function(callback){
        console.log("In datalog.overview: Collecting log");
-       var preproc_sql_statement = '(SELECT l.log_id, l.message, l.human_message,\
+       var preproc_sql_statement = 'SELECT l.log_id, l.message, l.human_message,\
                                        l.device, l.channel, l.variable, l.client, l.debug_type\
-                                      FROM log l ORDER BY l.log_id DESC LIMIT 100) ORDER BY log_id ASC';
+                                      FROM log l ORDER BY l.log_id DESC LIMIT 100';
        var sql_preproc_data = {user_id: req.user.id};
       
        var preproc_sql = conn.prepare(preproc_sql_statement);
@@ -231,7 +231,7 @@ exports.filter = function(req, res) {
     dbclient.exec(function(conn) {
       console.log(req.body);          
 
-      var SQL = "(SELECT l.log_id, l.message, l.human_message, \
+      var SQL = "SELECT l.log_id, l.message, l.human_message, \
                            l.device, l.channel, l.variable, l.client, l.debug_type \
                     FROM log l";
       var alreadyOne = 0;
@@ -279,7 +279,6 @@ exports.filter = function(req, res) {
       if(req.body.limit != 'ALL'){
          SQL += " LIMIT " + req.body.limit;
       }
-      SQL += ") ORDER BY log_id ASC";
       console.log("SQL:  " +SQL);
       var preproc_sql = conn.prepare(SQL);
       conn.query(preproc_sql({user_id: req.user.id

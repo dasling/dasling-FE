@@ -274,7 +274,7 @@ exports.edit_form = function(req, res) {
             result.on('row', function(row) {
               console.log("In variables.edit_form: result: " + util.inspect(row));
               messages.push('Editing variable with ID: ' + req.params.variable_id);
-              res.render('variable_edit', { title: 'Variable edit form',
+	      res.render('variable_edit', { title: 'Variable edit form',
                 messages: messages,
                 variable: row,
                 units: results[0],
