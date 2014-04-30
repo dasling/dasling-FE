@@ -26,11 +26,11 @@ exports.list = function(req, res) {
       conn.query(preproc_sql({id: req.user.id}))
       .on('result', function(res) {
 	res.on('row', function(row) {
-//	  console.log("In devices.list: Device found: " + util.inspect(row));
+	  console.log("In devices.list: Device found: " + util.inspect(row));
 	  devices.push(row);
 	})
 	.on('error', function(err) {
-//	  console.log("In devices.list: Device access error: " + util.inspect(err));  
+	  console.log("In devices.list: Device access error: " + util.inspect(err));  
 	  messages.push('Error accessing a device. Please report this to the administrator with as much detail as humanly possible.');
 	})
 	.on('end', function(info) {

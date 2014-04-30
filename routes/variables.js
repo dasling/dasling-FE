@@ -77,13 +77,14 @@ exports.add = function(req, res) {
     dbclient.exec(function(conn) {      
       // TODO: Get the organization_id from the user_id (from DB)
       var preproc_sql = conn.prepare("INSERT INTO variable \
-                                          (organization_id, name, description, status_id) \
+                                          (organization_id, name, description, status_id, user_id) \
                                         VALUES \
-                                          (:organization_id, :name, :description, :status_id)");
+                                          (:organization_id, :name, :description, :status_id, :user_id)");
       conn.query(preproc_sql({organization_id:0,
                               name: "Fill in a name here",
                               description: "Fill in a description here, e.g. temperature at my lab.",
-                              status_id: 100}))
+                              status_id: 100,
+                              user_id: req.user.id}))
       .on('result', function(res) {
         res.on('row', function(row) {
         })
@@ -273,7 +274,7 @@ exports.edit_form = function(req, res) {
             result.on('row', function(row) {
               console.log("In variables.edit_form: result: " + util.inspect(row));
               messages.push('Editing variable with ID: ' + req.params.variable_id);
-              res.render('variable_edit', { title: 'Variable edit form',
+	      res.render('variable_edit', { title: 'Variable edit form',
                 messages: messages,
                 variable: row,
                 units: results[0],
